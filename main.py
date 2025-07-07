@@ -79,8 +79,8 @@ def parse_program(program_str: str) -> Dict[str, str]:
 def process_classroom_data(raw_data: Dict[Any, Any]) -> Dict[Any, Any]:
     """Procesa los datos crudos para extraer solo lo necesario para el frontend"""
         
-    # Simular un jueves
-    current_time = datetime.strptime("2025-07-03", "%Y-%m-%d")
+
+    current_time = datetime.now()
     current_day = current_time.strftime('%A').lower()
     
     processed_classrooms = []
