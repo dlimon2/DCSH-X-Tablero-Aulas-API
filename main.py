@@ -1,10 +1,14 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Any
+import os
 import json
 import asyncio
 from datetime import datetime
 import uvicorn
+
+from dotenv import load_dotenv
+load_dotenv()
 
 app = FastAPI(title="DCSH-X : Tablero digital de aulas - API Realtime", version="1.0.0")
 
@@ -79,8 +83,14 @@ def parse_program(program_str: str) -> Dict[str, str]:
 def process_classroom_data(raw_data: Dict[Any, Any]) -> Dict[Any, Any]:
     """Procesa los datos crudos para extraer solo lo necesario para el frontend"""
         
-
-    current_time = datetime.now()
+    if os.getenv('TEST_MONDAY') == 'true':
+        # Forzar el día a lunes para pruebas
+        print ("Forzando día a lunes para pruebas")
+        current_time = datetime(2024, 6, 10, 8, 0)
+    else:
+        # Obtener la fecha y hora actual
+        print ("Usando fecha y hora actual")
+        current_time = datetime.now()
     current_day = current_time.strftime('%A').lower()
     
     processed_classrooms = []
